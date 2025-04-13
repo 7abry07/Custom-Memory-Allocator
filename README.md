@@ -47,7 +47,7 @@ If larger, allocates a new block, copies old data, and marks the old block as fr
 Marks a memory block as free for future use. If the pointer is invalid or the block is already free, it returns 1. Otherwise, returns 0.
 
 # Internal Helpers
-### ` meta extend_heap(size_t size)` 
+### `meta extend_heap(size_t size)` 
 Uses `sbrk()` to grow the heap and creates a new memory block with associated metadata.
 
 ### `meta find_suitable_block(size_t size)` 
