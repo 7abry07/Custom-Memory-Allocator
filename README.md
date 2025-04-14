@@ -51,7 +51,7 @@ Marks a memory block as free for future use. If the pointer is invalid or the bl
 Uses `sbrk()` to grow the heap and creates a new memory block with associated metadata.
 
 #### `meta find_suitable_block(size_t size)` 
-Implements the first-fit strategy to find a free block large enough to accommodate the requested size.
+Implements the best-fit strategy to find a free block large enough to accommodate the requested size.
 
 #### `void split_block(meta block)` 
 If a block is significantly larger than required, it is split into two blocks to reduce wasted space.
