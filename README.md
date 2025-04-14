@@ -66,12 +66,8 @@ Checks if a pointer refers to a valid allocated block by comparing its magic num
 
 * Does not return memory to the OS
 
-* Simple first-fit strategy may lead to inefficiencies over time
-
 # To-Do / Improvements
 * Add block merging (coalescing) on free
-
-* Implement a more advanced allocation strategy (e.g., best-fit)
 
 * Support alignment constraints
 
