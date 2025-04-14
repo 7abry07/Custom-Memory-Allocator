@@ -1,6 +1,8 @@
 #include "includes/mem.h"
 #include <stdio.h>
 
+//feel free to modify this file however you want for debugging purpose
+//this is just a normal test file
 int main() {
   int *num1 = (int *)(malloc(sizeof(int) * 5)); //allocates size for 5 integers
   free(num1); //frees memory

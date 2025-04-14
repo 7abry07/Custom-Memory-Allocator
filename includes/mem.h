@@ -54,7 +54,7 @@ void split_block(meta block)
 {
   size_t current_size = block->size;
   size_t new_size = (current_size / 2) - (sizeof(struct meta_block) / 2);
-  meta new_block = (meta)((char *)block + new_size);
+  meta new_block = (meta)((char *)block + new_size + sizeof(struct meta_block));
 
   new_block->free = 1;
   new_block->next = NULL;
@@ -73,7 +73,6 @@ void split_block(meta block)
 // if "sbrk" fails it returns NULL
 meta extend_heap(size_t size)
 {
-
   meta old_break = sbrk(0);
   meta new_break = sbrk(size + sizeof(struct meta_block));
 
@@ -99,11 +98,32 @@ meta extend_heap(size_t size)
 // if it doesnt find any it return NULL
 meta find_suitable_block(size_t size)
 {
-
   meta p = head;
-  while (p && !(p->size > size && p->free))
+  meta block = NULL;
+  size_t s = 0;
+  int i = 0;
+
+  while (p)
+  {
+    if (!(p->free && p->size > size))
+    {
+      p = p->next;
+      continue;
+    }
+
+    if (!i) {
+      s = p->size;
+      block = p;
+      i++;
+    }
+    if (p->size < s)
+    {
+      s = p->size;
+      block = p;
+    }
     p = p->next;
-  return p;
+  }
+  return block;
 }
 
 // checks if the given address is valid (allocated by malloc, calloc or realloc)
@@ -143,7 +163,7 @@ void *malloc(size_t s)
       if (!block)
         return NULL;
     }
-    if (block)
+    else if (block)
       block->free = 0;
     if (block->size > 2 * size && block->size > sizeof(struct meta_block))
       split_block(block);
